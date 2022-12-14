@@ -12,13 +12,18 @@ public class DocumentService {
 
 	@Autowired
 	private DocumentRepository documentRepository;
-	
+
 	public DocumentService() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public List<Document> getaAllDocuments(){
-		
+	public List<Document> getAllDocuments() {
+
 		return documentRepository.findAll();
+	}
+
+	public Document getDocument(Long id) {
+
+		return documentRepository.findById(id).orElseThrow(() -> new RuntimeException("document not found exception"));
 	}
 }

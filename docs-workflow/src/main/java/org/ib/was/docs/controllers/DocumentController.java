@@ -1,9 +1,6 @@
 package org.ib.was.docs.controllers;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.ib.was.docs.models.Document;
 import org.ib.was.docs.services.DocumentService;
@@ -26,15 +23,19 @@ public class DocumentController {
 		// TODO Auto-generated constructor stub
 	}
 
-	@GetMapping(path = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Map<String, Object>> test(@RequestParam("id") String id) {
-
-		Map<String, Object> map = new HashMap<>();
-		map.put("klucz", "wartosc");
-		map.put("data", LocalDateTime.now());
+	@GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Document>> all() {
 		
-		List<Document> documents = documentService.getaAllDocuments();
-		System.out.println("docs: " + documents);
-		return ResponseEntity.ok(map);
+		List<Document> documents = documentService.getAllDocuments();
+		
+		return ResponseEntity.ok(documents);
+	}
+	
+	@GetMapping(path = "/document", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Document> document(@RequestParam("id") Long id) {
+		
+		Document document = documentService.getDocument(id);
+		
+		return ResponseEntity.ok(document);
 	}
 }
