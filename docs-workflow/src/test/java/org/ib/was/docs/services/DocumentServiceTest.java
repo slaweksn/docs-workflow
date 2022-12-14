@@ -60,21 +60,21 @@ class DocumentServiceTest {
 
 	@Test
 	void should_find_and_return_all_documents() throws Exception {
-		
+
 		Document document1 = new Document();
 		document1.setId(1l);
 		document1.setName("document_01");
-		
+
 		Document document2 = new Document();
 		document2.setId(1l);
 		document2.setName("document_01");
 		List<Document> params = Arrays.asList(document1, document2);
-		
+
 		doReturn(params).when(documentRepository).findAll();
-		
+
 		List<Document> documents = documentService.getAllDocuments();
-		
-        Assertions.assertEquals(params.size(), documents.size(), "findAll should return 2 widgets");
+
+		Assertions.assertEquals(params.size(), documents.size(), "findAll should return 2 widgets");
 	}
 	
 	@Test
