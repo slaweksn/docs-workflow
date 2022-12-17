@@ -4,11 +4,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"org.ib.was.docs.repositories"})
+@EnableJpaRepositories(basePackages = { "org.ib.was.docs.repositories" })
 public class WebDocConfig {
 
 	public WebDocConfig() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 }

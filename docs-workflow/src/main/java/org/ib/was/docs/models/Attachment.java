@@ -1,8 +1,8 @@
 package org.ib.was.docs.models;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,10 +13,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.TableGenerator;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@JsonPropertyOrder({"idr", "name", "document"})
-@Data
+@Getter
+@Setter
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@ToString
 @Entity
 @Table(name = "ATTACHMENTS_TAB")
 public class Attachment {
@@ -26,18 +30,36 @@ public class Attachment {
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "attachment_gen")
 	@Column(name = "IDR", nullable = false, unique = true)
 	private Long id;
-	
-	@JsonProperty("name")
+
 	@Column(name = "NAME", nullable = false)
 	private String name;
+
+	@Column(name = "DATA_SIZE")
+	private Long dataSize;
 	
 	@JsonBackReference
 	@ManyToOne
-	@JoinColumn(name = "DOCUMENT_IDR")
+	@JoinColumn(name = "DOCUMENT_IDR", nullable = false)
 	private Document document;
+	
+	//@OneToOne(mappedBy = "attachment", cascade = CascadeType.ALL)
+    //@PrimaryKeyJoinColumn
+    //private AttachmentData attachmentData;
 	
 	public Attachment() {
 		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Attachment other = (Attachment) obj;
+		return Objects.equals(id, other.id);
 	}
 
 }
