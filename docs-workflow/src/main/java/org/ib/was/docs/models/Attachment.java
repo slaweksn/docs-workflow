@@ -37,6 +37,9 @@ public class Attachment {
 	@Column(name = "DATA_SIZE")
 	private Long dataSize;
 	
+	@Column(name = "CONTENT_TYPE")
+	private String contentType;
+	
 	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "DOCUMENT_IDR", nullable = false)

@@ -3,11 +3,13 @@ package org.ib.was.docs.controllers;
 import java.util.List;
 
 import org.ib.was.docs.dto.DocumentView;
+import org.ib.was.docs.models.Customer;
 import org.ib.was.docs.models.Document;
 import org.ib.was.docs.services.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping(path = "/documents", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DocumentController {
@@ -46,8 +49,18 @@ public class DocumentController {
 	@PostMapping
 	public ResponseEntity<Document> insert(@RequestBody Document document) {
 		
+		//org.springframework.dao.InvalidDataAccessApiUsageException x;
 		//document.getAttachments().forEach(p->p.setDocument(document));
 		//SqlExceptionHelper x;
+		if(document.getAttachments() != null) {
+			document.getAttachments().forEach(a->a.setDocument(document));
+		}
+		//if(document.getCustomer() != null) {
+		//	Customer customer = document.getCustomer();
+		//	if(customer.getId() == null) {
+		//		document.setCustomer(null);
+		//	}
+		//}
 		Document documentResponse = documentService.saveDocument(document);
 		
 		return ResponseEntity.ok(documentResponse);

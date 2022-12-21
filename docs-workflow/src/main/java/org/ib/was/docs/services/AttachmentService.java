@@ -11,6 +11,8 @@ import org.ib.was.docs.repositories.AttachmentDataRepository;
 import org.ib.was.docs.repositories.AttachmentRepository;
 import org.ib.was.docs.repositories.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,7 +52,7 @@ public class AttachmentService {
 					//attachment.setData(file.getBytes());
 					//attachment.setData(BlobProxy.generateProxy(file.getBytes()));
 					//attachment.setData(new SerialBlob(file.getBytes()));
-					
+					attachment.setContentType(file.getContentType());
 					Attachment attachmentResponse = repository.save(attachment);
 					
 					AttachmentData attachmentData = new AttachmentData();
@@ -70,8 +72,26 @@ public class AttachmentService {
 			}
 
 		} else {
-			throw new EntityNotFoundException("document not found");
+			throw new EntityNotFoundException("Document not found");
 		}
 
+	}
+
+	public AttachmentData loadAttachmentData(Long id) {
+		/*
+		Optional<AttachmentData> attachmentDataOptional = attachmentDataRepository.findById(id);
+		if(attachmentDataOptional.isPresent()) {
+			attachmentDataOptional.get
+			Resource resource = new ByteArrayResource(array);
+		} else {
+			
+		}
+		
+		
+		return resource;
+		*/
+		//return new ByteArrayResource(attachmentDataRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Attachment not found")).getData());
+		return attachmentDataRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Attachment not found"));
+		//return null;
 	}
 }
